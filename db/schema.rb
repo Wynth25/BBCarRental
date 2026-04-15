@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.1].define(version: 2026_04_14_092957) do
-  create_table "cars", force: :cascade do |t|
+  create_table "cars", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "brand"
     t.datetime "created_at", null: false
     t.string "name"
@@ -20,18 +20,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_092957) do
     t.integer "year"
   end
 
-  create_table "reservations", force: :cascade do |t|
-    t.integer "car_id", null: false
+  create_table "reservations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "car_id", null: false
     t.datetime "created_at", null: false
     t.date "end_date"
     t.date "start_date"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["car_id"], name: "index_reservations_on_car_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
     t.string "name"

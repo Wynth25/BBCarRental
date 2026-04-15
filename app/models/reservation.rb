@@ -30,7 +30,7 @@ class Reservation < ApplicationRecord
     .where("start_date <= ? AND end_date >= ?", end_date, start_date)
 
     if overlapping_reservations.exists?
-      errors.add(:base, "Bohužel, toto auto je ve vybraném termínu již zarezervováno někým jiným.")
+      errors.add(:base, "Bohužel, toto auto je ve vybraném termínu již zarezervováno.")
     end
   end
 end
