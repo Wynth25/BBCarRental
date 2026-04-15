@@ -1,7 +1,7 @@
 # BBCarRental
 
 ## 🚗 BB Car Rental
-Jednoduchá CRUD aplikace v Ruby on Rails pro správu pronájmu aut. Projekt umožňuje evidovat uživatele, vozový park a vytvářet rezervace.
+Jednoduchá CRUD aplikace v Ruby on Rails pro správu pronájmu aut. Projekt umožňuje vytvářet/upravovat uživatele a rezervace.
 
 ## 📝 Popis projektu
 Aplikace slouží k základní správě autopůjčovny. Obsahuje tři propojené modely:
@@ -12,7 +12,7 @@ Aplikace obsahuje validace pro povinná pole a logickou kontrolu termínů (datu
 
 ## 🛠 Tech Stack
 * Ruby: 3.3.6
-* Databáze: MySQL (adapter mysql2)
+* Databáze: MySQL (adapter ```mysql2```)
 * Styling: Čisté CSS bez externích frameworků
 
 ## 🚀 Rychlý start
