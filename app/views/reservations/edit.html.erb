@@ -1,0 +1,48 @@
+<div class="form-container">
+  <h1>Úprava rezervace #<%= @reservation.id %></h1>
+
+  <%= form_with model: @reservation, local: true, class: "modern-form" do |form| %>
+    <%= hidden_field_tag :source, (params[:source] || params[:reservation_source]) %>
+    
+    <% if @reservation.errors.any? %>
+      <div class="error-box">
+        <strong>Nelze uložit rezervaci:</strong>
+        <ul>
+          <% @reservation.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :user_id, "Zákazník", class: "form-label" %>
+      <%= form.collection_select :user_id, User.all, :id, :name, {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :car_id, "Auto", class: "form-label" %>
+      <%= form.collection_select :car_id, Car.all, :id, ->(car) { "#{car.brand} #{car.name} (#{car.year})" }, {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :start_date, "Od", class: "form-label" %>
+      <%= form.date_field :start_date, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :end_date, "Do", class: "form-label" %>
+      <%= form.date_field :end_date, class: "form-control" %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Uložit změny", class: "nav-btn active" %>
+
+      <% if params[:source] == 'profile' %>
+        <%= link_to "Zrušit", reservation_path(@reservation), class: "nav-btn" %>
+      <% else %>
+        <%= link_to "Zrušit", reservations_path, class: "nav-btn" %>
+      <% end %>
+    
+  <% end %>
+</div>

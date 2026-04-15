@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title><%= content_for(:title) || "Taskmaster" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Taskmaster">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav class="top-navbar">
+      <div class="nav-brand">BB Car Rental</div>
+      
+      <div class="nav-links">
+        
+        <div class="nav-column">
+          <%= link_to reservations_path, class: "nav-btn #{'active' if controller_name == 'reservations' && action_name == 'index' && params[:filter_start_date].blank?}" do %>
+            <i class="fa-solid fa-list-ul"></i> Všechny rezervace
+          <% end %>
+
+          <%= link_to reservations_path(filter_start_date: Date.today), class: "nav-btn sub-btn #{'active' if params[:filter_start_date] == Date.today.to_s}" do %>
+            <i class="fa-solid fa-calendar-day"></i> Aktivní rezervace
+          <% end %>
+          
+          <%= yield :sub_nav_res %>
+        </div>
+
+        <div class="nav-column">
+          <%= link_to users_path, class: "nav-btn #{'active' if controller_name == 'users' && action_name == 'index'}" do %>
+            <i class="fa-solid fa-users"></i></i> Uživatelé
+          <% end %>
+          
+          <%= yield :sub_nav_user %>
+        </div>
+
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <%= yield %>
+    </main>
+  </body>
+</html>

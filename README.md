@@ -1,6 +1,4 @@
-# BBCarRental
-
-## 🚗 BB Car Rental
+# 🚗 BB Car Rental
 Jednoduchá CRUD aplikace v Ruby on Rails pro správu pronájmu aut. Projekt umožňuje vytvářet/upravovat uživatele a rezervace.
 
 ## 📝 Popis projektu

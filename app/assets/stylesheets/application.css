@@ -1,0 +1,396 @@
+/* =========================================
+   1. BASE BODY AND LAYOUT
+   ========================================= */
+
+/* Sets the default font and a subtle off-white background for the whole page */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* The central white "canvas" where your yields are injected.
+   It restricts the max width so it doesn't stretch infinitely on ultrawide monitors.
+*/
+.main-content {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* =========================================
+   2. TOP NAVIGATION BAR
+   ========================================= */
+
+/* The sticky-like header containing the brand and links */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px 30px;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.nav-brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+/* Wraps the Reservations and Users button groups, keeping them spaced out */
+.nav-links {
+  display: flex;
+  gap: 40px; 
+  align-items: flex-start;
+}
+
+/* Allows the "breadcrumb" sub-navigation to stack vertically under the main button */
+.nav-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; 
+}
+
+/* Standard clickable navigation links */
+.nav-btn {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #6c757d;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/* The active state (blue highlight) when the user is currently on that page */
+.nav-btn.active {
+  background-color: #e7f1ff;
+  color: #0d6efd;
+}
+
+/* The dynamic breadcrumb links injected via content_for (e.g., ↳ Bryan Cranston) */
+.sub-btn {
+  font-size: 0.85rem; 
+  padding: 4px 10px;
+  margin-left: 20px; 
+  border-left: 2px solid #dee2e6; 
+  border-radius: 0 4px 4px 0; 
+}
+
+.sub-btn.active {
+  border-left: 2px solid #0d6efd; 
+  background-color: transparent; 
+  color: #0d6efd;
+}
+
+/* =========================================
+   3. PROFILE & DETAIL PAGES (SPLIT LAYOUT)
+   ========================================= */
+
+/* Creates a 2-column layout (Left: User Details, Right: Reservation History).
+   Using flexbox ensures they align perfectly at the top.
+*/
+.reservation-layout, 
+.profile-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+/* --- LEFT COLUMN --- */
+.user-details {
+  width: 30%;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.user-details h1 {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+/* Profile picture styling */
+.nav-logo {
+  display: block;
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0d6efd;
+}
+
+/* Holds the Edit/Delete action buttons under the profile picture */
+.quick-actions {
+  margin-top: 25px; 
+}
+
+/* General style for secondary action buttons (Edit/Delete) */
+.action-link {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #495057;
+  font-size: 0.9rem;
+  /* Uses a custom CSS variable injected from HTML to control width dynamically */
+  width: var(--custom-width, 100%);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.action-link:hover {
+  background-color: #e9ecef;
+}
+
+/* --- RIGHT COLUMN --- */
+.reservation-details, 
+.user-reservations {
+  width: 70%;
+  background-color: #ffffff;
+  padding: 30px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Resets default table styles specifically inside the right column */
+.user-reservations table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.user-reservations th, 
+.user-reservations td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: left;
+}
+
+/* =========================================
+   4. MODERN DATA TABLES & SORTING
+   ========================================= */
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.modern-table thead {
+  background-color: #2c0170; 
+  color: #ffffff;
+}
+
+/* Header and Data cells */
+.modern-table th,
+.modern-table td {
+  /* Allows specific HTML headers to define their own width via style="--custom-width: 50px" */
+  width: var(--custom-width, auto);
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modern-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Dynamic sorting links generated by the Rails Helper */
+th a.sort-link {
+  color: #ffffff; 
+  text-decoration: none; 
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+th a.sort-link:hover {
+  color: #0d6efd; 
+}
+
+/* Row Hover Effect */
+.modern-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.modern-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Removes the bottom line from the final row to prevent double-borders */
+.modern-table tbody tr:last-child td {
+  border-bottom: none; 
+}
+
+.modern-table td a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.modern-table td a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   5. FORMS & FILTERS
+   ========================================= */
+
+/* --- CREATE/EDIT FORMS --- */
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #e9ecef;
+}
+
+.form-container h1 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #212529;
+  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+/* Input boxes and dropdown selects */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #212529;
+  background-color: #ffffff;
+  box-sizing: border-box; 
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Focus state (blue glow) when typing */
+.form-control:focus {
+  border-color: #0d6efd;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f8f9fa;
+}
+
+/* --- FILTER FORM (Top of Reservations) --- */
+.filter-box {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.filter-inputs {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end; 
+}
+
+.filter-inputs .form-group {
+  margin-bottom: 0; 
+  flex: 1; 
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* =========================================
+   6. FLASH MESSAGES & ERRORS
+   ========================================= */
+
+/* Application-wide flash message wrapper */
+.flash-messages {
+  max-width: 500px;
+  margin: 20px auto 0 auto; 
+  padding: 0 20px;
+}
+
+.flash {
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Green success notifications */
+.flash.notice {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+/* Red error notifications (e.g., trying to delete a user with bookings) */
+.flash.alert {
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+/* The red validation error box inside Forms (e.g., "Email is taken") */
+.error-box {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  border: 1px solid #f5c2c7;
+}
+
+.error-box ul {
+  margin-bottom: 0;
+  padding-left: 20px;
+}

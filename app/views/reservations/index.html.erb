@@ -1,0 +1,119 @@
+<div class="flash-messages">
+  <% flash.each do |key, message| %>
+    <div class="flash <%= key %>">
+      <%= message %>
+    </div>
+  <% end %>
+</div>
+
+<div class="filter-box">
+  <%= form_with url: reservations_path, method: :get, local: true, class: "filter-form" do |form| %>
+    
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+
+    <div class="filter-inputs">
+      <div class="form-group">
+        <%= form.label :filter_start_date, "Od", class: "form-label" %>
+        <%= form.date_field :filter_start_date, value: @start_date, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :filter_end_date, "Do", class: "form-label" %>
+        <%= form.date_field :filter_end_date, value: @end_date, class: "form-control" %>
+      </div>
+
+      <div class="filter-actions">
+        <%= form.submit "Filtrovat", class: "nav-btn active" %>
+        
+        <%= link_to " Zrušit filtr", reservations_path(filter_start_date: '', filter_end_date: ''), class: "nav-btn" %>
+      </div>
+    </div>
+    
+  <% end %>
+</div>
+
+<table class="modern-table">
+
+  <thead>
+    <tr>
+      <th><%= sortable "id", "Číslo rezervace" %></th>
+      <th><%= sortable "customer", "Zákazník" %></th>
+      <th><%= sortable "car", "Auto (Ročník)" %></th>
+      <th><%= sortable "start_date", "Od" %></th>
+      <th><%= sortable "end_date", "Do" %></th>
+      <th colspan="2">Úpravy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reservations.each do |reservation| %>
+
+      <tr>
+        <td><%= link_to "Rezervace ##{reservation.id}", reservation_path(reservation) %></td>
+        <td><%= reservation.user.name %></td>
+        <td><%= reservation.car.brand %> <%= reservation.car.name %> (<%= reservation.car.year %>)</td>
+        <td><%= reservation.start_date.strftime("%d. %m. %Y") %></td>
+        <td><%= reservation.end_date.strftime("%d. %m. %Y") %></td>
+        <td><%= link_to edit_reservation_path(reservation, source: 'reservations'), title: "Upravit" do %>
+          <i class="fa-solid fa-pen"></i><% end %></td>
+        <td><%= link_to reservation_path(reservation, source: 'reservations'), title: "Smazat", data: { turbo_method: :delete, turbo_confirm: "Opravdu chcete smazat tuto rezervaci?" } do %>
+          <i class="fa-solid fa-trash-can"></i><% end %></td>
+      </tr>
+
+    <% end %>
+  </tbody>
+
+</table>
+
+<h2><%= link_to new_reservation_path(source: 'reservations'), title: "Vytvořit novou rezervaci" do %>
+  <i class="fa-solid fa-square-plus"></i><% end %></h2>
+
+
+
+
+<!--
+
+
+old
+
+Res list   (res index)   =>    Res   - Res + UserRess  (res show)
+User list  (user index)  =>    User  - UserRess        (user show)
+
+
+
+new
+
+top:
+all ress
+all users
+
+
+
+all ress (res index) - table
+
+one res (res show) - User + Reservation details
+links to user show for the user who made the reservation
+
+
+all users (user index) - table
+  
+one user (user show) - User + User's reservations
+link to res show for each reservation
+
+
+todo:
+
+<yay> back button action according to source
+
+<yay> new users
+
+<yay> edit and delete buttons in res details and user details
+
+<yay> car conflicts (date)
+
+<yay> filtering by date
+
+<yay> sorting
+
+-->
