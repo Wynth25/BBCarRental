@@ -1,0 +1,72 @@
+<% content_for :sub_nav_res do %>
+  <%= link_to reservation_path(@reservation), class: "nav-btn sub-btn active" do %>
+    ↳ Rezervace #<%= @reservation.id %>
+  <% end %>
+<% end %>
+
+<% content_for :sub_nav_user do %>
+  <%= link_to user_path(@reservation.user), class: "nav-btn sub-btn" do %>
+    ↳ <%= @reservation.user.name %>
+  <% end %>
+<% end %>
+
+
+<div class="reservation-layout">
+
+  <div class="user-details">
+
+    <div class="flash-messages">
+      <% flash.each do |key, message| %>
+        <div class="flash <%= key %>">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+    
+    <%= image_tag "profile_icon.png", class: "nav-logo", alt: "Profilový obrázek" %>
+    <h1><i class="fa-solid fa-user"></i> <%= @reservation.user.name %></h1>
+    <p><strong>Email:</strong> <%= @reservation.user.email %></p>
+    
+    <div class="quick-actions">
+      <%= link_to user_path(@reservation.user), class: "action-link" do %>
+        <i class="fa-solid fa-user"></i> Celý profil klienta
+      <% end %>
+    </div>
+  </div>
+
+  <div class="reservation-details">
+    <h1><u>Rezervace #<%= @reservation.id %></u></h1>
+
+    <div class="car-info-wrapper">
+
+      <div class="car-info-text">
+        <h2><i class="fa-solid fa-car"></i> Detaily rezervace</h2>
+        <p><strong>Vypůjčené auto:</strong> <%= @reservation.car.brand %> <%= @reservation.car.name %> (<%= @reservation.car.year %>)</p>          
+        <p><strong>Od:</strong> <%= @reservation.start_date.strftime("%d. %m. %Y") %></p>
+        <p><strong>Do:</strong> <%= @reservation.end_date.strftime("%d. %m. %Y") %></p>
+        <p><strong>Počet dní:</strong> <%= (@reservation.end_date - @reservation.start_date).to_i + 1 %></p>
+        <p><strong>Cena za den:</strong> <%= number_to_currency(@reservation.car.price_per_day, unit: "$") %></p>
+        <p><strong>Celková cena:</strong> <%= number_to_currency((@reservation.end_date - @reservation.start_date).to_i * @reservation.car.price_per_day + @reservation.car.price_per_day, unit: "$") %></p>
+        
+        <%= link_to edit_reservation_path(@reservation, source: 'profile'), class: "action-link", style: "--custom-width: 100px" do %>
+          <i class="fa-solid fa-pen"></i> Upravit
+        <% end %>
+        <%= link_to reservation_path(@reservation, source: 'profile'), class: "action-link", style: "--custom-width: 100px", data: { turbo_method: :delete, turbo_confirm: "Opravdu chcete smazat tuto rezervaci?" } do %>
+          <i class="fa-solid fa-trash-can"></i> Smazat
+        <% end %>
+
+      </div>
+
+      <div class="car-info-image">
+        <%= image_tag "car_icon.webp", class: "detail-car-img", alt: "Fotografie auta" %>
+      </div>
+      
+      <div class="quick-actions">
+        
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    attributes:
+      reservation:
+        start_date: "Počáteční datum"
+        end_date: "Koncové datum"
+        user: "Zákazník"
+        car: "Auto"
+      user:
+        name: "Jméno"
+        email: "E-mail"
+      car:
+        brand: "Značka"
+        name: "Model"

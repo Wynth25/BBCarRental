@@ -1,0 +1,74 @@
+<% content_for :sub_nav_user do %>
+  <%= link_to user_path(@user), class: "nav-btn sub-btn active" do %>
+    ↳ <%= @user.name %>
+  <% end %>
+<% end %>
+
+
+<div class="profile-layout">
+
+  <div class="user-details">
+
+    <div class="flash-messages">
+      <% flash.each do |key, message| %>
+        <div class="flash <%= key %>">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= image_tag "profile_icon.png", class: "nav-logo", alt: "Profilový obrázek" %>
+    <h1><i class="fa-solid fa-user"></i> <%= @user.name %></h1>
+    <p><strong>Email:</strong> <%= @user.email %></p>
+    
+    <div class="quick-actions">
+      <%= link_to edit_user_path(@user, source: 'profile'), class: "action-link", style: "--custom-width: 100px" do %>
+        <i class="fa-solid fa-pen"></i> Upravit
+      <% end %>
+      <%= link_to user_path(@user), class: "action-link", style: "--custom-width: 100px", data: { turbo_method: :delete, turbo_confirm: "Opravdu chcete smazat tohoto uživatele?" } do %>
+        <i class="fa-solid fa-trash-can"></i> Smazat
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="user-reservations">  
+
+    <h2>Historie rezervací uživatele <%= @user.name %></h2>
+    <% if @reservations.any? %>
+
+      <table class="modern-table">
+
+        <thead>
+          <tr>
+            <th>Číslo rezervace</th>
+            <th>Auto</th>
+            <th>Od</th>
+            <th>Do</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @reservations.each do |reservation| %>
+              <tr>
+                <td><%= link_to "Rezervace ##{reservation.id}", reservation_path(reservation) %></td>
+                <td><%= reservation.car.brand %> <%= reservation.car.name %></td>
+                <td><%= reservation.start_date.strftime("%d. %m. %Y") %></td>
+                <td><%= reservation.end_date.strftime("%d. %m. %Y") %></td>
+              </tr>
+          <% end %>
+        </tbody>
+
+      </table>
+
+    <% else %>
+
+      <p>Žádné rezervace</p><% end %>
+
+    <h2><%= link_to new_reservation_path(source: 'profile', user_id: @user.id), title: "Vytvořit novou rezervaci" do %>
+    <i class="fa-solid fa-square-plus"></i><% end %></h2>
+  </div>
+  
+
+</div>
+
