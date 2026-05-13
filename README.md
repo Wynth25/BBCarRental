@@ -1,20 +1,20 @@
 # 🚗 BB Car Rental
-Jednoduchá CRUD aplikace v Ruby on Rails pro správu pronájmu aut. Projekt umožňuje vytvářet/upravovat uživatele a rezervace.
+A simple Ruby on Rails CRUD application for managing a car rental service. The project allows creating/editing users and reservations.
 
-## 📝 Popis projektu
-Aplikace slouží k základní správě autopůjčovny. Obsahuje tři propojené modely:
-* Uživatelé: Správa zákazníků (Jméno, Email).
-* Auta: Databáze vozidel dostupných k pronájmu.
-* Rezervace: Propojení uživatele a auta s definovaným termínem (Od–Do).
-Aplikace obsahuje validace pro povinná pole a logickou kontrolu termínů (datum ukončení musí být po datu začátku). Součástí je také dynamické řazení v tabulkách a možnost filtrování rezervací.
+## 📝 Project Description
+The application serves as a basic management system for a car rental business. It consists of three associated models:
+* Users: Customer management (Name, Email).
+* Cars: A database of vehicles available for rent.
+* Reservations: Connects a user to a car with a defined timeframe (From–To).
+The application includes validations for required fields and logical date checks (the end date must be after the start date). It also features dynamic sorting in tables and the ability to filter reservations.
 
 ## 🛠 Tech Stack
 * Ruby: 3.3.6
-* Databáze: MySQL (adapter ```mysql2```)
-* Styling: Čisté CSS bez externích frameworků
+* Database: MySQL (```mysql2``` adapter)
+* Styling: Vanilla CSS without external frameworks
 
-## 🚀 Rychlý start
+## 🚀 Quick Start
 * ```bundle install```
-* Nastavit přístup k MySQL v ```config/database.yml```.
-* ```rails db:setup``` (vytvoří DB, spustí migrace a nahraje vzorová data).
+* Set up MySQL access in ```config/database.yml```.
+* ```rails db:setup```
 * ```rails server```
