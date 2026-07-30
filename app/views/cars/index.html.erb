@@ -1,0 +1,69 @@
+<div class="flash-messages">
+  <% flash.each do |key, message| %>
+    <div class="flash <%= key %>">
+      <%= message %>
+    </div>
+  <% end %>
+</div>
+
+<div class="filter-box">
+  <%= form_with url: cars_path, method: :get, local: true, class: "filter-form" do |form| %>
+    
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+
+    <div class="filter-inputs">
+      <div class="form-group">
+        <%= form.label :filter_brand, "Značka", class: "form-label" %>
+        <%= form.text_field :filter_brand, value: @brand_filter, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :filter_name, "Model", class: "form-label" %>
+        <%= form.text_field :filter_name, value: @name_filter, class: "form-control" %>
+      </div>
+
+      <div class="filter-actions">
+        <%= form.submit "Filtrovat", class: "nav-btn active" %>
+        
+        <%= link_to " Zrušit filtr", cars_path(filter_brand: '', filter_name: ''), class: "nav-btn" %>
+      </div>
+    </div>
+    
+  <% end %>
+
+  <table class="modern-table">
+
+    <thead>
+      <tr>
+        <th><%= sortable "id", "ID" %></th>
+        <th><%= sortable "brand", "Značka" %></th>
+        <th><%= sortable "name", "Model" %></th>
+        <th><%= sortable "year", "Rok" %></th>
+        <th><%= sortable "count", "Počet" %></th>
+        <th colspan="2">Úpravy</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @cars.each do |car| %>
+
+        <tr>
+          <td><%= link_to car.id, car_path(car) %></td>
+          <td><%= car.brand %></td>
+          <td><%= car.name %></td>
+          <td><%= car.year %></td>
+          <td><%= car.count %></td>
+          <td><%= link_to edit_car_path(car, source: 'cars'), title: "Upravit" do %>
+            <i class="fa-solid fa-pen"></i><% end %></td>
+          <td><%= link_to car_path(car, source: 'cars'), title: "Smazat", data: { turbo_method: :delete, turbo_confirm: "Opravdu chcete smazat toto auto?" } do %>
+            <i class="fa-solid fa-trash"></i><% end %></td>
+        </tr>
+
+      <% end %>
+    </tbody>
+
+</table>
+
+<h2><%= link_to new_car_path(source: 'cars'), title: "Přidat auto" do %>
+  <i class="fa-solid fa-square-plus"></i><% end %></h2>

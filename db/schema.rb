@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_14_092957) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_30_141858) do
   create_table "cars", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "brand"
+    t.integer "count", default: 1
     t.datetime "created_at", null: false
     t.string "name"
     t.integer "price_per_day"
